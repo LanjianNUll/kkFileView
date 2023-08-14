@@ -46,6 +46,28 @@ public class KkFileUtils {
         return false;
     }
     /**
+     * 把不合法的文件转换为合法的文件名是否合规
+     * @param fileName 文件名
+     * @return validFileName
+     */
+    public static String convertToValidFileName(String fileName) {
+        // 定义不合法文件名的正则表达式
+        String regex = "[\\\\/:*?\"<>|.]";
+        // 替换不合法字符为合法字符
+        String validFileName = fileName.replaceAll(regex, ".");
+        // 处理连续的多个"."，只保留一个
+        validFileName = validFileName.replaceAll("\\.{2,}", ".");
+        // 如果文件名以"."开头，则在开头添加"_"
+        if (validFileName.startsWith(".")) {
+            validFileName = "_" + validFileName;
+        }
+        // 如果文件名以"."结尾，则在结尾添加"_"
+        if (validFileName.endsWith(".")) {
+            validFileName = validFileName + "_";
+        }
+        return validFileName;
+    }
+    /**
      * 检查是否是数字
      * @param str 文件名
      * @return 合规结果,true:不合规，false:合规
